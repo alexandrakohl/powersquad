@@ -13,7 +13,7 @@ handlers:
   static_dir: assets
 
 - url: .*
-  script: main.app
+  script: main1.app
 
 libraries:
 - name: jinja2
