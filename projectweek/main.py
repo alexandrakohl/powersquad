@@ -23,7 +23,7 @@ class LoginHandler(webapp2.RequestHandler):
         user_info = {
             'name_answer': self.request.get('name'),
             'email_answer': self.request.get('email'),
-            'username_answer': self.request.get('username'),
+            'username_answer': self.request.get('username_signin'),
             'password_answer': self.request.get('password')
         }
 
@@ -33,6 +33,7 @@ class LoginHandler(webapp2.RequestHandler):
             username= user_info['username_answer'],
             password= user_info['password_answer']
         )
+        user_record.put()
         self.response.write(login_output.render(user_info))
 
 class MainHandler(webapp2.RequestHandler):
