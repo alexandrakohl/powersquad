@@ -15,32 +15,44 @@ class User(ndb.Model):
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
-        login_html = jinja_environment.get_template('Templates/login.html')
-        self.response.write(login_html.render())
+        print "WOOHOO"
+        user = users.get_current_user()
+        login_url_template = jinja_environment.get_template('Templates/login1.html')
+        if user:
+          email_address = user.nickname()
+          user_input = User.get_by_id(user.user_id())
+          signin_link_html = (users.create_logout_url('/'))
+          print "IF"
+          if user_input:
+             self.response.write("Welcome")
+        else:
+            print "ELSE"
+            self.response.write(login_url_template.render({'login_url': users.create_login_url}))
 
     def post(self):
         login_output = jinja_environment.get_template('Templates/output_login.html')
-        user_info = {
-            'name_answer': self.request.get('name'),
-            'email_answer': self.request.get('email'),
-            'username_answer': self.request.get('username_signin'),
-            'password_answer': self.request.get('password')
-        }
+        user = users.get_current_user()
+        if not user:
+            self.error(500)
+            return
 
-        user_record = User(
-            name= user_info['name_answer'],
-            email= user_info['email_answer'],
-            username= user_info['username_answer'],
-            password= user_info['password_answer']
-        )
-        user_record.put()
+        user_info = {
+           'name_answer': self.request.get('name'),
+           'username_answer': self.request.get('username_signin'),
+        }
+        user_input = User(
+            name=self.request.get('name'),
+            username=self.request.get('username_signin'),
+            id=user.user_id())
+        user_input.put()
+        self.response.write('Thanks for signing up')
         self.response.write(login_output.render(user_info))
 
 
 
 class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write("HELLO IM WORKING")
+   def get(self):
+       self.response.write("HELLO IM WORKING")
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),
