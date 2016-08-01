@@ -1,0 +1,2 @@
+$('#login').click()
+$('register').click()
