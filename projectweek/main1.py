@@ -7,26 +7,18 @@ from google.appengine.ext import ndb
 
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
-<<<<<<< HEAD
 
 class User(ndb.Model):
   first_name = ndb.StringProperty()
   last_name = ndb.StringProperty()
-=======
->>>>>>> e3bd6a44e4d282eb8b8b265f9ad571d45874d03f
 
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
     if user:
       email_address = user.nickname()
-<<<<<<< HEAD
       user_input = User.get_by_id(user.user_id())
       signout_link_html = '<a href="%s">Sign out</a>' % (
-=======
-      user_input = models.User.get_by_id(user.user_id())
-      signout_link_html = '<a href="%s">sign out</a>' % (
->>>>>>> e3bd6a44e4d282eb8b8b265f9ad571d45874d03f
           users.create_logout_url('/'))
       if user_input:
         home_html = jinja_environment.get_template('Templates/home.html')
