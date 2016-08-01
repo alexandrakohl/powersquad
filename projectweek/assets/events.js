@@ -1,2 +1,2 @@
 $('#login').click()
-$('register').click()
+$('#register').click()
