@@ -4,6 +4,9 @@ import os
 import webapp2
 from google.appengine.ext import ndb
 
+jinja_environment = jinja2.Environment(loader=
+    jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    
 class User(ndb.Model):
   first_name = ndb.StringProperty()
   last_name = ndb.StringProperty()
@@ -17,12 +20,14 @@ class LoginHandler(webapp2.RequestHandler):
       signout_link_html = '<a href="%s">sign out</a>' % (
           users.create_logout_url('/'))
       if user_input:
+        home_html = jinja_environment.get_template('Templates/home.html')
         self.response.write('''
             Welcome %s %s (%s)! <br> %s <br>''' % (
               user_input.first_name,
               user_input.last_name,
               email_address,
               signout_link_html))
+        self.response.write(home_html.render())
       else:
         self.response.write('''
             Welcome to our site, %s!  Please sign up! <br>
@@ -39,6 +44,7 @@ class LoginHandler(webapp2.RequestHandler):
           users.create_login_url('/')))
 
   def post(self):
+    home_html = jinja_environment.get_template('Templates/home.html')
     user = users.get_current_user()
     if not user:
       self.error(500)
@@ -50,6 +56,7 @@ class LoginHandler(webapp2.RequestHandler):
     user_input.put()
     self.response.write('Thanks for signing up, %s!' %
         user_input.first_name)
+    self.response.write(home_html.render())
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler)
