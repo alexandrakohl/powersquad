@@ -58,12 +58,12 @@ class LoginHandler(webapp2.RequestHandler):
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/accomp.html')
+        template = jinja_environment.get_template('Templates/accomp.html')
         self.response.write(template.render())
 
 
     def post(self):
-        template = jinja_environment.get_template('templates/thank_you.html')
+        template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info = {
             'feeling_answer': self.request.get('feeling'),
             'accomp_info_answer': self.request.get('accomp_text')
@@ -79,12 +79,12 @@ class AccompHandler(webapp2.RequestHandler):
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/accomp.html')
+        template = jinja_environment.get_template('Templates/accomp.html')
         self.response.write(template.render())
 
 
     def post(self):
-        template = jinja_environment.get_template('templates/thank_you.html')
+        template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info = {
             'feeling_answer': self.request.get('feeling'),
             'accomp_info_answer': self.request.get('accomp_text')
