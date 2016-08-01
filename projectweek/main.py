@@ -36,6 +36,8 @@ class LoginHandler(webapp2.RequestHandler):
         user_record.put()
         self.response.write(login_output.render(user_info))
 
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("HELLO IM WORKING")
