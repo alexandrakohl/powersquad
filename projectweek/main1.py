@@ -47,7 +47,7 @@ class LoginHandler(webapp2.RequestHandler):
     if not user:
       self.error(500)
       return
-    user_input = User(
+    user_input = models.User(
         first_name=self.request.get('first_name'),
         last_name=self.request.get('last_name'),
         id=user.user_id())
