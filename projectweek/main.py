@@ -48,6 +48,8 @@ class LoginHandler(webapp2.RequestHandler):
         self.response.write('Thanks for signing up')
         self.response.write(login_output.render(user_info))
 
+
+
 class MainHandler(webapp2.RequestHandler):
    def get(self):
        self.response.write("HELLO IM WORKING")

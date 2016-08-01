@@ -8,17 +8,14 @@ from google.appengine.ext import ndb
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-class User(ndb.Model):
-  first_name = ndb.StringProperty()
-  last_name = ndb.StringProperty()
-
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
     if user:
       email_address = user.nickname()
-      user_input = User.get_by_id(user.user_id())
+      user_input = models.User.get_by_id(user.user_id())
       signout_link_html = '<a href="%s">Sign out</a>' % (
+
           users.create_logout_url('/'))
       if user_input:
         home_html = jinja_environment.get_template('Templates/home.html')
@@ -58,6 +55,27 @@ class LoginHandler(webapp2.RequestHandler):
     self.response.write('Thanks for signing up, %s!' %
         user_input.first_name)
     self.response.write(home_html.render())
+
+class AccompHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/accomp.html')
+        self.response.write(template.render())
+
+
+    def post(self):
+        template = jinja_environment.get_template('templates/thank_you.html')
+        accomp_info = {
+            'feeling_answer': self.request.get('feeling'),
+            'accomp_info_answer': self.request.get('accomp_text')
+        }
+        accomp_info_record = models.Accomplishments(
+            feeling = accomp_info['feeling_answer'],
+            accomp_info = accomp_info['accomp_info_answer'],
+        )
+        accomp_info_record.put()
+        self.response.write(template.render())
+
+
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
