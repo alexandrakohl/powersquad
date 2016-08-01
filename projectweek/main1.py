@@ -7,22 +7,42 @@ from google.appengine.ext import ndb
 
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+class User(ndb.Model):
+  first_name = ndb.StringProperty()
+  last_name = ndb.StringProperty()
+=======
+>>>>>>> e3bd6a44e4d282eb8b8b265f9ad571d45874d03f
+>>>>>>> c0ff3fb2f056ffafbca9215d6188755e2fc3b32e
 
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
     if user:
       email_address = user.nickname()
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      user_input = User.get_by_id(user.user_id())
+      signout_link_html = '<a href="%s">Sign out</a>' % (
+=======
+>>>>>>> c0ff3fb2f056ffafbca9215d6188755e2fc3b32e
       user_input = models.User.get_by_id(user.user_id())
       signout_link_html = '<a href="%s">sign out</a>' % (
+>>>>>>> e3bd6a44e4d282eb8b8b265f9ad571d45874d03f
           users.create_logout_url('/'))
       if user_input:
+        home_html = jinja_environment.get_template('Templates/home.html')
         self.response.write('''
             Welcome %s %s (%s)! <br> %s <br>''' % (
               user_input.first_name,
               user_input.last_name,
               email_address,
               signout_link_html))
+        self.response.write(home_html.render())
       else:
         self.response.write('''
             Welcome to our site, %s!  Please sign up! <br>
@@ -39,6 +59,7 @@ class LoginHandler(webapp2.RequestHandler):
           users.create_login_url('/')))
 
   def post(self):
+    home_html = jinja_environment.get_template('Templates/home.html')
     user = users.get_current_user()
     if not user:
       self.error(500)
@@ -50,6 +71,28 @@ class LoginHandler(webapp2.RequestHandler):
     user_input.put()
     self.response.write('Thanks for signing up, %s!' %
         user_input.first_name)
+    self.response.write(home_html.render())
+
+class AccompHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/accomp.html')
+        self.response.write(template.render())
+
+
+    def post(self):
+        template = jinja_environment.get_template('templates/thank_you.html')
+        accomp_info = {
+            'feeling_answer': self.request.get('feeling'),
+            'accomp_info_answer': self.request.get('accomp_text')
+        }
+        accomp_info_record = models.Accomplishments(
+            feeling = accomp_info['feeling_answer'],
+            accomp_info = accomp_info['accomp_info_answer'],
+        )
+        accomp_info_record.put()
+        self.response.write(template.render())
+
+
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
