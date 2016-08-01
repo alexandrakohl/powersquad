@@ -1,5 +1,2 @@
-
-
-
 $('#login').click()
 $('register').click()

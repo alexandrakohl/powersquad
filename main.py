@@ -7,7 +7,7 @@ from google.appengine.ext import ndb
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-class Visitors(ndb.Model):
+class User(ndb.Model):
     name = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     username = ndb.StringProperty(required=True)
@@ -19,7 +19,21 @@ class LoginHandler(webapp2.RequestHandler):
         self.response.write(login_html.render())
 
     def post(self):
-        visitor = Visitors(name=self.request.get('name'), email=self.request.get('email'), username=self.request.get("username"), password=self.request.get('password'))
+        login_output = jinja_environment.get_template('Templates/output_login.html')
+        user_info = {
+            'name_answer': self.request.get('name'),
+            'email_answer': self.request.get('email'),
+            'username_answer': self.request.get('username'),
+            'password_answer': self.request.get('password')
+        }
+
+        user_record = User(
+            name= user_info['name_answer'],
+            email= user_info['email_answer'],
+            username= user_info['username_answer'],
+            password= user_info['password_answer']
+        )
+        self.response.write(login_output.render(user_info))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -27,5 +41,5 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),
-  ('/order', MainHandler),
+  ('/home', MainHandler),
 ], debug=True)
