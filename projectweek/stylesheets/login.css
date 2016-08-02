@@ -1,0 +1,13 @@
+.loginbody{
+text-align: center;
+border-style: solid;
+border-color: black;
+border-radius: 15px;
+margin-left: 500px;
+margin-right: 500px;
+padding: 10px;
+}
+
+.centerme{
+height: 100px;
+}
