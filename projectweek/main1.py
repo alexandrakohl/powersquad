@@ -8,14 +8,14 @@ from google.appengine.ext import ndb
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-cool_user_id
+cool_user_id = ""
 
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
     if user:
       email_address = user.nickname()
-      user_input = models.User.get_by_id(user.user_id())
+      user_input = models.CoolUser.get_by_id(user.user_id())
       signout_link_html = '<a href="%s">Sign out</a>' % (
 
           users.create_logout_url('/'))
@@ -45,17 +45,17 @@ class LoginHandler(webapp2.RequestHandler):
 
   def post(self):
     home_html = jinja_environment.get_template('Templates/home.html')
-    user = users.get_current_user()
+    app_user = users.get_current_user()
     app_user.user_id() #using the app API, I am accessing the user id
-    if not user:
+    if not app_user:
       self.error(500)
       return
     user_input = models.CoolUser(
         first_name=self.request.get('first_name'),
         last_name=self.request.get('last_name'),
-        id=user.user_id())
+        id=app_user.user_id())
     user_input.put()
-    user_key = user_input.put()
+    #user_key = user_input.put()
     cool_user_id = models.CoolUser.get_by_id(app_user.user_id()) #sets it so that for that same
     #user, there will only be one unique ID
     self.response.write('Thanks for signing up, %s!' %
