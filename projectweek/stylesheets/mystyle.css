@@ -21,3 +21,33 @@ body {
   height: 600px;
   width: auto;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffd9b3;
+}
+
+.library {
+  height:50px;
+  width: 50px;
+  bottom: 10px;
+  position: fixed;
+}
+
+.tab {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown_content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+}
+
+.tab:hover .dropdown_content {
+  display: block;
+}

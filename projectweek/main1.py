@@ -82,7 +82,6 @@ class AccompHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('Templates/accomp.html')
         self.response.write(template.render())
 
-
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info = {
@@ -96,9 +95,43 @@ class AccompHandler(webapp2.RequestHandler):
         accomp_info_record.put()
         self.response.write(template.render())
 
+class CompHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('Templates/comp.html')
+        self.response.write(template.render())
+
+    def post(self):
+        template = jinja_environment.get_template('Templates/thank_you.html')
+        comp_info = {
+            'comp_text_answer': self.request.get('comp_text')
+        }
+        comp_info_record = models.Compliments(
+            comp = comp_info['comp_text_answer'],
+        )
+        comp_info_record.put()
+        self.response.write(template.render())
+
+class JournalHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('Templates/journal.html')
+        self.response.write(template.render())
+
+    def post(self):
+        template = jinja_environment.get_template('Templates/thank_you.html')
+        comp_info = {
+            'comp_text_answer': self.request.get('comp_text')
+        }
+        comp_info_record = models.Compliments(
+            comp = comp_info['comp_text_answer'],
+        )
+        comp_info_record.put()
+        self.response.write(template.render())
+
 
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),
-  ('/accomp', AccompHandler)
+  ('/accomp', AccompHandler),
+  ('/comp', CompHandler),
+  ('/journal', JournalHandler)
 ], debug=True)
