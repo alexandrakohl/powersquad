@@ -16,7 +16,7 @@ body {
   border: none;
 }
 
-#willitwork {
+.willitwork {
   float: left;
   height: 600px;
   width: auto;
