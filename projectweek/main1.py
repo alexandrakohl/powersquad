@@ -16,9 +16,7 @@ class LoginHandler(webapp2.RequestHandler):
     if user:
       email_address = user.nickname()
       user_input = models.CoolUser.get_by_id(user.user_id())
-      signout_link_html = '<a href="%s">Sign out</a>' % (
-
-          users.create_logout_url('/'))
+      signout_link_html = '<a href="%s">Sign out</a>' % (users.create_logout_url('/'))
       if user_input:
         home_html = jinja_environment.get_template('Templates/home.html')
         self.response.write('''
@@ -29,19 +27,13 @@ class LoginHandler(webapp2.RequestHandler):
               signout_link_html))
         self.response.write(home_html.render())
       else:
-        self.response.write('''
-            Welcome to our site, %s!  Please sign up! <br>
-            <form method="post" action="/">
-            <input type="text" name="first_name">
-            <input type="text" name="last_name">
-            <input type="submit">
-            </form><br> %s <br>
-            ''' % (email_address, signout_link_html))
+        register_html= jinja_environment.get_template('Templates/login.html')
+        self.response.write(register_html.render())
     else:
-      self.response.write('''
-        Please log in to use our site! <br>
-        <a href="%s">Sign in</a>''' % (
-          users.create_login_url('/')))
+        login_link_html = users.create_login_url('/')
+        login_dictionary = {'login_link_html':login_link_html}
+        login_html = jinja_environment.get_template('Templates/login1.html')
+        self.response.write(login_html.render(login_dictionary))
 
   def post(self):
     home_html = jinja_environment.get_template('Templates/home.html')
