@@ -2,6 +2,7 @@
   <head>
     <title>CREATIVE APP NAME</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/mystyle.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stars.css"/>
   </head>
   <body>
     <h1><a href="/">CREATIVE APP NAME</a></h1>
@@ -23,7 +24,18 @@
     <br></br>
     <form method="post" name="formB">
       <h3>Accomplishments</h3>
-      <p>How Are You Feeling Today? <input type="text" name="feeling" id="feeling"></p>
+      <fieldset class="rating">
+        <legend>How are you feeling today?</legend>
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+      </fieldset>
+      </p>
+      <br></br>
+      <br></br>
+      <br></br>
       <p>What are you proud of today: <input type="text" name="accomp_text" id="accomp_text"/></p>
       <button type="submit" id="login">Submit</button>
       <br></br>
@@ -31,7 +43,7 @@
     <a href="/accomplibrary"><img src="https://cdn4.iconfinder.com/data/icons/eldorado-education/40/291400-books_2-512.png" class="library"></a>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>
-    <script src="/events.js"></script>
+    <script src="/stars.js"></script>
 
   </body>
 </html>
