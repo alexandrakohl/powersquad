@@ -13,12 +13,13 @@ jinja_environment = jinja2.Environment(loader=
 cool_user_id = ""
 
 compliment_template = {
-  'random_compliment_0' : 'You are so rad!',
-  'random_compliment_1' : 'You hair looks nice today!',
-  'random_compliment_2' : 'Nice outfit!',
-  'random_compliment_3' : 'You got a nice butt buddy!',
-  'random_compliment_4' : 'You matter',
-  }
+    'random_compliment_0' : 'You are so rad!',
+    'random_compliment_1' : 'You hair looks nice today!',
+    'random_compliment_2' : 'Nice outfit!',
+    'random_compliment_3' : 'You got a nice butt buddy!',
+    'random_compliment_4' : 'You matter',
+    }
+
 logging.info(compliment_template)
 random_compliment = random.choice(compliment_template.values())
 logging.info(random_compliment)
@@ -68,6 +69,7 @@ class LoginHandler(webapp2.RequestHandler):
         email = app_user.email(),
         feeling = self.request.get('feeling'), #CHECK IF IT IS STORE AS AN INT OR AS A STRING
         id = app_user.user_id())
+
     user_input.put()
     #cool_user_key = user_input.put()
     cool_user_id = models.CoolUser.get_by_id(app_user.user_id()) #sets it so that for that same
@@ -95,13 +97,16 @@ class AccompHandler(webapp2.RequestHandler):
 #            "personal_accomp":
             "email": app_user.email(),
             }
-        # if app_user.email() == accomp_info_answer["email"]:
-        #     app_user_query = Accomplishment.query(Accomplishment.)
-        #     accomplishment_data = app_user_query.fetch()
         accomp_info_record = models.Accomplishments(
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
-        )
+            )
+        app_user_query = models.Accomplishments.all().filter(app_user.email() == accomp_info_answer["email"])
+        accomplishment_data = app_user_query.fetch()
+
+        for data in accomplishment_data:
+            self.response.out.write('<p>'+data.accomp_info+'</p>')
+
         accomp_info_record.put()
         self.response.write(template.render(accomp_info_answer))
 
