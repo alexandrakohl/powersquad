@@ -12,6 +12,20 @@ jinja_environment = jinja2.Environment(loader=
 
 cool_user_id = ""
 
+compliment_template = {
+'random_compliment_0' : 'You are so rad!',
+'random_compliment_1' : 'You hair looks nice today!',
+'random_compliment_2' : 'Nice outfit!',
+'random_compliment_3' : 'You got a nice butt buddy!',
+'random_compliment_4' : 'You matter',
+}
+logging.info(compliment_template)
+random_compliment = random.choice(compliment_template.values())
+logging.info(random_compliment)
+compliment_template_1 = {
+'random_compliment' : random_compliment,
+}
+
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
@@ -28,19 +42,7 @@ class LoginHandler(webapp2.RequestHandler):
               email_address,
               signout_link_html))
 
-        compliment_template = {
-        'random_compliment_0' : 'You are so rad!',
-        'random_compliment_1' : 'You hair looks nice today!',
-        'random_compliment_2' : 'Nice outfit!',
-        'random_compliment_3' : 'You got a nice butt buddy!',
-        'random_compliment_4' : 'You matter',
-        }
-        logging.info(compliment_template)
-        random_compliment = random.choice(compliment_template.values())
-        logging.info(random_compliment)
-        compliment_template_1 = {
-        'random_compliment' : random_compliment,
-        }
+
         self.response.write(home_html.render(compliment_template_1))
       else:
         register_html = jinja_environment.get_template('Templates/login.html')
@@ -62,7 +64,7 @@ class LoginHandler(webapp2.RequestHandler):
     user_input = models.CoolUser(
         first_name=self.request.get('first_name'),
         last_name=self.request.get('last_name'),
-        email=users.get_current_user(),
+        email=app_user.email(),
         feeling=self.request.get('feeling'), #CHECK IF IT IS STORE AS AN INT OR AS A STRING
         id=app_user.user_id())
     user_input.put()
@@ -73,7 +75,7 @@ class LoginHandler(webapp2.RequestHandler):
     self.response.write(cool_user_id)
     self.response.write('Thanks for signing up, %s!' %
         user_input.first_name)
-    self.response.write(home_html.render())
+    self.response.write(home_html.render(compliment_template_1))
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
@@ -90,13 +92,16 @@ class AccompHandler(webapp2.RequestHandler):
             "text": self.request.get('accomp_text'),
             "email": app_user.email(),
             }
-        # if app_user.email() == accomp_info_answer["email"]:
-        #     app_user_query = Accomplishment.query(Accomplishment.)
-        #     accomplishment_data = app_user_query.fetch()
         accomp_info_record = models.Accomplishments(
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
-        )
+            )
+        app_user_query = models.Accomplishments.all().filter(app_user.email() == accomp_info_answer["email"])
+        accomplishment_data = app_user_query.fetch()
+
+        for data in accomplishment_data:
+            self.response.out.write('<p>'+data.accomp_info+'</p>')
+
         accomp_info_record.put()
         self.response.write(template.render(accomp_info_answer))
 
