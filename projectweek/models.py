@@ -9,12 +9,15 @@ class CoolUser(ndb.Model):
     last_name = ndb.StringProperty()
     email = ndb.StringProperty()
     feeling = ndb.StringProperty()
+
 class Accomplishments(ndb.Model):
     accomp_info = ndb.StringProperty()
     user_key = ndb.KeyProperty() #allows us grab all of the properties
+
 class Compliments(ndb.Model):
     comp_info = ndb.StringProperty()
     user_key = ndb.KeyProperty()
+    
 class Journal(ndb.Model):
     """
     journal_entry = ndb.StringProperty()
