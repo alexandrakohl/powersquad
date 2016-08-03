@@ -25,7 +25,10 @@ class LoginHandler(webapp2.RequestHandler):
               user_input.last_name,
               email_address,
               signout_link_html))
-        self.response.write(home_html.render())
+        compliment_template = {
+        'random_compliment':'You are so rad!'
+        }
+        self.response.write(home_html.render(compliment_template))
       else:
         register_html = jinja_environment.get_template('Templates/login.html')
         self.response.write(register_html.render())
@@ -109,6 +112,10 @@ class JournalHandler(webapp2.RequestHandler):
         comp_info_record.put()
         self.response.write(template.render())
 
+class AccompLibraryHandler(webapp2.RequestHandler):
+    def get(self):
+        template1 = jinja_environment.get_template('Templates/accomplibrary.html')
+        self.response.write(template1.render())
 
 
 app = webapp2.WSGIApplication([
@@ -116,4 +123,5 @@ app = webapp2.WSGIApplication([
   ('/accomp', AccompHandler),
   ('/comp', CompHandler),
   ('/journal', JournalHandler),
+  ('/accomplibrary', AccompLibraryHandler)
 ], debug=True)
