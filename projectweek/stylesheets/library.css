@@ -1,0 +1,23 @@
+.date {
+  width: 10%;
+}
+.textlib {
+  width: 80%;
+  height: 100px;
+}
+.star2 {
+  width: 7%;
+}
+.trash {
+  width: 7%
+}
+.tableclass {
+  border-collapse: collapse;
+
+}
+
+.tableclass, th, td {
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 3px;
+  }
