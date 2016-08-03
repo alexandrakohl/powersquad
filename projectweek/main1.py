@@ -4,6 +4,8 @@ import os
 import webapp2
 import models
 from google.appengine.ext import ndb
+import random
+import logging
 
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -25,10 +27,21 @@ class LoginHandler(webapp2.RequestHandler):
               user_input.last_name,
               email_address,
               signout_link_html))
+
         compliment_template = {
-        'random_compliment':'You are so rad!'
+        'random_compliment_0' : 'You are so rad!',
+        'random_compliment_1' : 'You hair looks nice today!',
+        'random_compliment_2' : 'Nice outfit!',
+        'random_compliment_3' : 'You got a nice butt buddy!',
+        'random_compliment_4' : 'You matter',
         }
-        self.response.write(home_html.render(compliment_template))
+        logging.info(compliment_template)
+        random_compliment = random.choice(compliment_template.values())
+        logging.info(random_compliment)
+        compliment_template_1 = {
+        'random_compliment' : random_compliment,
+        }
+        self.response.write(home_html.render(compliment_template_1))
       else:
         register_html = jinja_environment.get_template('Templates/login.html')
         self.response.write(register_html.render())
