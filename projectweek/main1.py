@@ -96,13 +96,15 @@ class AccompHandler(webapp2.RequestHandler):
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
             )
-        app_user_query = models.Accomplishments.all().filter(app_user.email() == accomp_info_answer["email"])
-        accomplishment_data = app_user_query.fetch()
+        accomp_info_record.put()
+
+        accomplishments_query = models.Accomplishments.query()
+        accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == accomp_info_answer["email"])
+        accomplishment_data = accomplishments_query.fetch()
 
         for data in accomplishment_data:
             self.response.out.write('<p>'+data.accomp_info+'</p>')
 
-        accomp_info_record.put()
         self.response.write(template.render(accomp_info_answer))
 
 class CompHandler(webapp2.RequestHandler):
@@ -120,6 +122,13 @@ class CompHandler(webapp2.RequestHandler):
             #user = cool_user_id
         )
         comp_info_record.put()
+        compliments_query = models.Compliments.query()
+        compliments_query = compliments_query.filter(models.Compliments.email == accomp_info_answer["email"])
+        Compliments_data = accomplishments_query.fetch()
+
+        for data in compliment_data:
+            self.response.out.write('<p>'+data.comp_info+'</p>')
+
         self.response.write(template.render())
 
 class JournalHandler(webapp2.RequestHandler):
