@@ -130,11 +130,16 @@ class AccompLibraryHandler(webapp2.RequestHandler):
         template1 = jinja_environment.get_template('Templates/accomplibrary.html')
         self.response.write(template1.render())
 
+class CompLibraryHandler(webapp2.RequestHandler):
+    def get(self):
+        template1 = jinja_environment.get_template('Templates/complibrary.html')
+        self.response.write(template1.render())
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),
   ('/accomp', AccompHandler),
   ('/comp', CompHandler),
   ('/journal', JournalHandler),
-  ('/accomplibrary', AccompLibraryHandler)
+  ('/accomplibrary', AccompLibraryHandler),
+  ('/complibrary', CompLibraryHandler)
 ], debug=True)
