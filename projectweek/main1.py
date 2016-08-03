@@ -90,7 +90,7 @@ class AccompHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info_answer = {
             "text": self.request.get('accomp_text'),
-            "email": app_user.email(),
+            "email": app_user.email()
             "personal_accomp":
             }
         accomp_info_record = models.Accomplishments(
