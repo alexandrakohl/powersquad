@@ -8,13 +8,13 @@ class CoolUser(ndb.Model):
     first_name = ndb.StringProperty()
     last_name = ndb.StringProperty()
     email = ndb.StringProperty()
-class Accomplishments(ndb.Model):
     feeling = ndb.StringProperty()
+class Accomplishments(ndb.Model):
     accomp_info = ndb.StringProperty()
-    user = ndb.KeyProperty(kind = CoolUser) #allows us grab all of the properties
+    user_key = ndb.KeyProperty() #allows us grab all of the properties
 class Compliments(ndb.Model):
     comp_info = ndb.StringProperty()
-    user = ndb.KeyProperty(kind = CoolUser)
+    user_key = ndb.KeyProperty()
 class Journal(ndb.Model):
     """
     journal_entry = ndb.StringProperty()

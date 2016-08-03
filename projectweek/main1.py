@@ -27,7 +27,7 @@ class LoginHandler(webapp2.RequestHandler):
               signout_link_html))
         self.response.write(home_html.render())
       else:
-        register_html= jinja_environment.get_template('Templates/login.html')
+        register_html = jinja_environment.get_template('Templates/login.html')
         self.response.write(register_html.render())
     else:
         login_link_html = users.create_login_url('/')
@@ -39,40 +39,26 @@ class LoginHandler(webapp2.RequestHandler):
     home_html = jinja_environment.get_template('Templates/home.html')
     app_user = users.get_current_user()
     app_user.user_id() #using the app API, I am accessing the user id
+    rating_info = self.request.get('rating') #CHECK IF THIS WORKS AT HOME
     if not app_user:
       self.error(500)
       return
     user_input = models.CoolUser(
         first_name=self.request.get('first_name'),
         last_name=self.request.get('last_name'),
+        email=users.get_current_user(),
+        feeling=self.request.get('feeling'), #CHECK IF IT IS STORE AS AN INT OR AS A STRING
         id=app_user.user_id())
     user_input.put()
-    #user_key = user_input.put()
+    #cool_user_key = user_input.put()
     cool_user_id = models.CoolUser.get_by_id(app_user.user_id()) #sets it so that for that same
     #user, there will only be one unique ID
+    self.response.write(app_user.user_id())
+    self.response.write(cool_user_id)
     self.response.write('Thanks for signing up, %s!' %
         user_input.first_name)
     self.response.write(home_html.render())
 
-class AccompHandler(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('Templates/accomp.html')
-        self.response.write(template.render())
-
-
-    def post(self):
-        template = jinja_environment.get_template('Templates/thank_you.html')
-        accomp_info = {
-            'feeling_answer': self.request.get('feeling'),
-            'accomp_info_answer': self.request.get('accomp_text')
-        }
-        accomp_info_record = models.Accomplishments(
-            feeling = accomp_info['feeling_answer'],
-            accomp_info = accomp_info['accomp_info_answer'],
-        )
-        accomp_info_record.put()
-        self.response.write(template.render())
-
 
 
 class AccompHandler(webapp2.RequestHandler):
@@ -82,14 +68,10 @@ class AccompHandler(webapp2.RequestHandler):
 
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
-        accomp_info = {
-            'feeling_answer': self.request.get('feeling'),
-            'accomp_info_answer': self.request.get('accomp_text')
-        }
+        accomp_info_answer = self.request.get('accomp_text')
         accomp_info_record = models.Accomplishments(
-            feeling = accomp_info['feeling_answer'],
-            accomp_info = accomp_info['accomp_info_answer'],
-            user = cool_user_id
+            accomp_info = accomp_info_answer
+            #user_key = cool_user_id
         )
         accomp_info_record.put()
         self.response.write(template.render())
@@ -106,7 +88,7 @@ class CompHandler(webapp2.RequestHandler):
         }
         comp_info_record = models.Compliments(
             comp = comp_info['comp_text_answer'],
-            user = cool_user_id
+            #user = cool_user_id
         )
         comp_info_record.put()
         self.response.write(template.render())
@@ -133,5 +115,5 @@ app = webapp2.WSGIApplication([
   ('/', LoginHandler),
   ('/accomp', AccompHandler),
   ('/comp', CompHandler),
-  ('/journal', JournalHandler)
+  ('/journal', JournalHandler),
 ], debug=True)
