@@ -85,14 +85,14 @@ class AccompHandler(webapp2.RequestHandler):
         app_user = users.get_current_user()
         cool_user_id = app_user.user_id() #using the app API, I am accessing the user id
 
-        #if app_user.email() ==
-
         template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info_answer = {
             "text": self.request.get('accomp_text'),
             "email": app_user.email(),
-            "personal_accomp":
             }
+        # if app_user.email() == accomp_info_answer["email"]:
+        #     app_user_query = Accomplishment.query(Accomplishment.)
+        #     accomplishment_data = app_user_query.fetch()
         accomp_info_record = models.Accomplishments(
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
