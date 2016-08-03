@@ -9,7 +9,7 @@ class CoolUser(ndb.Model):
     last_name = ndb.StringProperty()
     email = ndb.StringProperty()
     feeling = ndb.StringProperty()
-    
+
 class Accomplishments(ndb.Model):
     accomp_info = ndb.StringProperty()
     email = ndb.StringProperty()
@@ -19,6 +19,6 @@ class Compliments(ndb.Model):
     email = ndb.StringProperty()
 
 class Journal(ndb.Model):
-    """
     journal_entry = ndb.StringProperty()
+    email = ndb.StringProperty()
     #time??"""
