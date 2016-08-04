@@ -20,4 +20,4 @@
 //		}
 //	});
 //});
-$('#nomoreresults').hide()
+$('#loading').hide()
