@@ -85,6 +85,12 @@ class AccompHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('Templates/accomp.html')
         self.response.write(template.render())
 
+    def post_accomp(self):
+        value = self.request.body #getting the entire body of the reuest which was sent as a second argument in the $ post method in JS
+        print "value: " + value
+        time.sleep(10)
+        self.response.write('POSTED! ' + value)
+
     def post(self):
         app_user = users.get_current_user()
         cool_user_id = app_user.user_id() #using the app API, I am accessing the user id
