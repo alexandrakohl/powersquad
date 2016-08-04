@@ -77,8 +77,9 @@ class LoginHandler(webapp2.RequestHandler):
     #cool_user_key = user_input.put()
     cool_user_id = models.CoolUser.get_by_id(app_user.user_id()) #sets it so that for that same
     #user, there will only be one unique ID
-    self.response.write('Thanks for signing up, %s!' % user_input.first_name)
     self.response.write(home_html.render({'first_name': user_input.first_name}))
+
+
 
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
