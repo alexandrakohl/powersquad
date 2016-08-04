@@ -138,7 +138,7 @@ class CompHandler(webapp2.RequestHandler):
     def get(self):
         app_user = users.get_current_user()
         template2 = jinja_environment.get_template('Templates/comp.html')
-        self.response.write(template.render())
+        self.response.write(template2.render())
 
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
@@ -163,7 +163,7 @@ class CompHandler(webapp2.RequestHandler):
 
 class JournalHandler(webapp2.RequestHandler):
     def get(self):
-        template3 = jinja_environment.get_template('Templates/journal.html')
+        template = jinja_environment.get_template('Templates/journal.html')
         self.response.write(template.render())
 
     def post(self):
@@ -180,7 +180,7 @@ class JournalHandler(webapp2.RequestHandler):
         #BUT THE ENTRY JUST ENTERED!! SO ENTER THE JUST ENTERED ENTRY MANUALLY
         #this actually might not be a problem because we are NOT displaying the accomplishments on that same page (in the library)
         Journal_data = journal_query.fetch()
-        self.response.write(template3.render())
+        self.response.write(template.render())
 
 
 class CompLibraryHandler(webapp2.RequestHandler):
