@@ -1,7 +1,7 @@
 function submit_clicked(event){
   console.log("CLICKED");
   event.preventDefault();
-  var content = $('#content').val();
+  var content = $('#accomp_text').val();
   $.post_accomp(
     "post_1",
     content,
@@ -11,8 +11,8 @@ function submit_clicked(event){
 
 function handle_response(data){
   console.log(data);
-  $('#result').text(data);
-  $('#result').show();
+  $('#accomp').text(data);
+  $('#accomp').show();
 }
 
 function associate_events(){

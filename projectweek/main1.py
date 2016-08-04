@@ -6,6 +6,8 @@ import models
 from google.appengine.ext import ndb
 import random
 import logging
+import time
+
 
 jinja_environment = jinja2.Environment(loader=
     jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -98,9 +100,7 @@ class AccompHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info_answer = {
             "text": self.request.get('accomp_text'),
-            "email": app_user.email(),
-#            "personal_accomp":
-            "email": app_user.email(),
+            "email": app_user.email()
             }
         accomp_info_record = models.Accomplishments(
             accomp_info = accomp_info_answer["text"],
@@ -112,10 +112,7 @@ class AccompHandler(webapp2.RequestHandler):
         accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == accomp_info_answer["email"])
         accomplishment_data = accomplishments_query.fetch()
 
-        for data in accomplishment_data:
-            self.response.out.write('<p>'+data.accomp_info+'</p>')
-
-        self.response.write(template.render(accomp_info_answer))
+        self.response.write(template.render())
 
 class AccompLibraryHandler(webapp2.RequestHandler):
     def get(self):
