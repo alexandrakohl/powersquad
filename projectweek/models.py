@@ -12,13 +12,16 @@ class CoolUser(ndb.Model):
 
 class Accomplishments(ndb.Model):
     accomp_info = ndb.StringProperty()
+    date = ndb.DateProperty(auto_now_add=True)
     email = ndb.StringProperty()
 
 class Compliments(ndb.Model):
     comp_info = ndb.StringProperty()
+    date = ndb.DateProperty(auto_now_add=True)
     email = ndb.StringProperty()
 
 class Journal(ndb.Model):
     journal_entry = ndb.StringProperty()
+    date = ndb.DateProperty(auto_now_add=True)
     email = ndb.StringProperty()
     #time??"""

@@ -128,7 +128,7 @@ class AccompLibraryHandler(webapp2.RequestHandler):
         accomplishment_data = accomp_store.fetch()
         accomp_store_dict ={}
         for i, instance in enumerate(accomplishment_data):
-            accomp_store_dict['random_key_%d' % i] = instance.accomp_info
+            accomp_store_dict['random_key_%d' % i] = instance
         logging.info (accomp_store_dict)
 
         self.response.write(template1.render(accomp_store_dict=accomp_store_dict))
