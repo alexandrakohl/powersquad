@@ -28,13 +28,13 @@
       <div id="w">
          <div id="content">
            <table border="1" class="tableclass" id="tableid">
-             {% for item in accomp_store_dict %}
-                <tr class="repeatME">
-                  <td class="date">Date</td>
-                  <td class="textlib">{{item.accomp_info}}</td>
-                  <td class="star2">★</td>
-                  <td class="trash"><img class="trashimg" src="https://openclipart.org/download/226230/trash.svg"/></td>
-                </tr>
+             {% for k, instance in accomp_store_dict.iteritems() %}
+             <tr>
+                <td class="textlib">{{instance}}</td>
+                <td class="star2">★</td>
+                <td class="trash"><img class="trashimg" src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png"></img></td>
+              </tr>
+
             {% endfor %}
           </table>
          </div>

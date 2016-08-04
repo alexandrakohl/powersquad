@@ -126,11 +126,12 @@ class AccompLibraryHandler(webapp2.RequestHandler):
         accomp_store = models.Accomplishments.query().filter(models.Accomplishments.email==accomp_info_answer['email'])
 
         accomplishment_data = accomp_store.fetch()
+        accomp_store_dict ={}
+        for i, instance in enumerate(accomplishment_data):
+            accomp_store_dict['random_key_%d' % i] = instance.accomp_info
+        logging.info (accomp_store_dict)
 
-        for instance in accomp_store:
-        accomp_store_dict = {'random_key': instance.accomp_info}
-
-        self.response.write(template1.render(accomp_store_dict))
+        self.response.write(template1.render(accomp_store_dict=accomp_store_dict))
 
 
 class CompHandler(webapp2.RequestHandler):
