@@ -1,16 +1,16 @@
 
 .textlib {
-  width: 80%;
+  width: 85%;
   height: 100px;
 }
 .star2 {
-  width: 10%;
+  width: 15%;
   color: gold;
   font-size: 20;
   text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
 }
 .trash {
-  width: 10%;
+  width: 15%;
 
 
 }
