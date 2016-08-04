@@ -7,6 +7,7 @@ from google.appengine.ext import ndb
 import random
 import logging
 import time
+import urllib
 
 
 jinja_environment = jinja2.Environment(loader=
@@ -160,8 +161,8 @@ class CompHandler(webapp2.RequestHandler):
         compliments_query = compliments_query.filter(models.Compliments.email == comp_info['email'])
         compliments_data = compliments_query.fetch()
 
-        for data in compliments_data:
-            self.response.out.write('<p>'+data.comp_info+'</p>')
+#        for data in compliments_data:
+#            self.response.out.write('<p>'+data.comp_info+'</p>')
 
         self.response.write(template2.render())
 
@@ -187,25 +188,91 @@ class CompLibraryHandler(webapp2.RequestHandler):
 
 class JournalHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('Templates/journal.html')
-        self.response.write(template.render())
+        template666 = jinja_environment.get_template('Templates/journal.html')
 
-    def post(self):
-        template = jinja_environment.get_template('Templates/thank_you.html')
+        journal_store_dict = {}
+
+        app_user = users.get_current_user()
         journal_info = {
-            'comp_text_answer': self.request.get('journal_text')
+            'journal_text_answer': self.request.get('journal_text'),
+            'email': app_user.email()
         }
-        journal_info_record = models.Compliments(
-            journal = journal_info['journal_text_answer'],
+        journal_info_record = models.Journal(
+            journal_entry = journal_info['journal_text_answer'],
+            email = journal_info['email']
         )
-        journal_info_record.put()
+
         journal_query = models.Journal.query()
-        journal_query = journal_query.filter(models.Compliments.email == accomp_info_answer["email"]) #INCLUDES EVERYTHING
+        journal_query = journal_query.filter(models.Journal.email == journal_info["email"]) #INCLUDES EVERYTHING
         #BUT THE ENTRY JUST ENTERED!! SO ENTER THE JUST ENTERED ENTRY MANUALLY
         #this actually might not be a problem because we are NOT displaying the accomplishments on that same page (in the library)
         Journal_data = journal_query.fetch()
-        self.response.write(template.render())
 
+        for i, instance2 in enumerate(Journal_data):
+            journal_store_dict['some_key_%d' % i] = instance2
+        logging.info (journal_store_dict)
+
+        self.response.write(template666.render(
+        {
+          'journal_store_dict': journal_store_dict}
+        ))
+
+    def post(self):
+        template1234 = jinja_environment.get_template('Templates/thank_you.html')
+        app_user = users.get_current_user()
+
+        journal_info = {
+            'journal_text_answer': self.request.get('journal_text'),
+            'email': app_user.email()
+        }
+        logging.info(journal_info)
+        journal_info_record = models.Journal(
+            journal_entry = journal_info['journal_text_answer'],
+            email = journal_info['email']
+        )
+        logging.info (journal_info_record)
+        journal_info_record.put()
+
+        self.response.write(template1234.render())
+
+class JournalEntryHandler(webapp2.RequestHandler):
+    def get(self):
+        id_var = self.request.get("id")
+        logging.info (id_var)
+
+        entry_html=jinja_environment.get_template('Templates/journaldisp.html')
+
+        journal_store_dict = {}
+
+        app_user = users.get_current_user()
+        journal_info = {
+            'journal_text_answer': self.request.get('journal_text'),
+            'email': app_user.email()
+        }
+        logging.info (journal_info)
+        journal_info_record = models.Journal(
+            journal_entry = journal_info['journal_text_answer'],
+            email = journal_info['email']
+        )
+        logging.info (journal_info_record)
+        journal_query = models.Journal.query()
+        journal_query = ndb.Key("Journal",long(id_var)).get() #INCLUDES EVERYTHING
+        #BUT THE ENTRY JUST ENTERED!! SO ENTER THE JUST ENTERED ENTRY MANUALLY
+        #this actually might not be a problem because we are NOT displaying the accomplishments on that same page (in the library)
+#        Journal_data = journal_query.fetch()
+        logging.info ("Journal_data")
+#        logging.info (Journal_data)
+        journal_store_dict={
+            'text': journal_query.journal_entry
+        }
+        logging.info (journal_store_dict)
+
+
+#        addThis = {"key": journal_query.filter(SOMETHING THAT GOES HERE).fetch(),
+#                "value": THAT SOMETHING.journal_entry}
+#        url = "http://localhost:14080/data?{}".format(urllib.urlencode(addThis))
+
+        self.response.write(entry_html.render(journal_store_dict))
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),
@@ -213,5 +280,7 @@ app = webapp2.WSGIApplication([
   ('/comp', CompHandler),
   ('/journal', JournalHandler),
   ('/accomplibrary', AccompLibraryHandler),
-  ('/complibrary', CompLibraryHandler)
+  ('/complibrary', CompLibraryHandler),
+  ('/journalentry', JournalEntryHandler)
+
 ], debug=True)

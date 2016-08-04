@@ -11,7 +11,7 @@ body {
 .tab {
   display: inline-block;
   float: left;
-  width: 300px;
+  width: 25%;
   height: 20px;
   border: none;
 }

@@ -27,21 +27,17 @@
     <div class="container">
       <nav>
         <ul>
-          <li><a href="/link0">{{date}} DATE</a></li>
-          <li><a href="/link1">{{date}} DATE</a></li>
-          <li><a href="/link2">{{date}} DATE</a></li>
-          <li><a href="/link3">{{date}} DATE</a></li>
-          <li><a href="/link4">{{date}} DATE</a></li>
-          <li><a href="/link5">{{date}} DATE</a></li>
-          <li><a href="/link6">{{date}} DATE</a></li>
-          <li><a href="/link7">{{date}} DATE</a></li>
+          {% for l, instance2 in journal_store_dict.iteritems() %}
+             <li class="journaldate"><a href="/journalentry?id={{instance2.key.id()}}">{{instance2.date}}</a></li>
+         {% endfor %}
         </ul>
+
       </nav>
       <article>
         <h1>What happened today?</h1>
-        <form>
-          <textarea></textarea>
-          <p><button type="submit">Submit</button></p>
+        <form method=post action="journal">
+          <textarea name="journal_text"></textarea>
+          <p><button type="submit" >Submit</button></p>
         </form>
       </article>
     </div>
