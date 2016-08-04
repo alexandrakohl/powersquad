@@ -7,9 +7,14 @@
 }
 .star2 {
   width: 7%;
+  color: gold;
+  font-size: 20;
+  text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
 }
 .trash {
-  width: 7%
+  width: 7%;
+
+
 }
 .tableclass {
   border-collapse: collapse;
@@ -21,3 +26,8 @@
     border-bottom: 1px solid black;
     padding: 3px;
   }
+
+.trashimg {
+  height:20px;
+  width: 20px;
+}

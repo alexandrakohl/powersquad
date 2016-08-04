@@ -85,7 +85,6 @@ class AccompHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('Templates/accomp.html')
         self.response.write(template.render())
 
-
     def post(self):
         app_user = users.get_current_user()
         cool_user_id = app_user.user_id() #using the app API, I am accessing the user id
@@ -111,6 +110,28 @@ class AccompHandler(webapp2.RequestHandler):
             self.response.out.write('<p>'+data.accomp_info+'</p>')
 
         self.response.write(template.render(accomp_info_answer))
+
+class AccompLibraryHandler(webapp2.RequestHandler):
+    def get(self):
+        app_user = users.get_current_user()
+        template1 = jinja_environment.get_template('Templates/accomplibrary.html')
+        accomp_info_answer = {
+            "email": app_user.email(),
+            "text": self.request.get('accomp_info'),
+            }
+        accomp_info_record = models.Accomplishments(
+            email = accomp_info_answer["email"],
+            accomp_info = accomp_info_answer['text'],
+            )
+        accomp_store = models.Accomplishments.query().filter(models.Accomplishments.email==accomp_info_answer['email'])
+
+        accomplishment_data = accomp_store.fetch()
+
+        for instance in accomp_store:
+        accomp_store_dict = {'random_key': instance.accomp_info}
+
+        self.response.write(template1.render(accomp_store_dict))
+
 
 class CompHandler(webapp2.RequestHandler):
     def get(self):
@@ -143,13 +164,13 @@ class JournalHandler(webapp2.RequestHandler):
 
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
-        comp_info = {
-            'comp_text_answer': self.request.get('comp_text')
+        journal_info = {
+            'comp_text_answer': self.request.get('journal_text')
         }
-        comp_info_record = models.Compliments(
-            comp = comp_info['comp_text_answer'],
+        journal_info_record = models.Compliments(
+            journal = journal_info['journal_text_answer'],
         )
-        comp_info_record.put()
+        journal_info_record.put()
         journal_query = models.Journal.query()
         journal_query = journal_query.filter(models.Compliments.email == accomp_info_answer["email"]) #INCLUDES EVERYTHING
         #BUT THE ENTRY JUST ENTERED!! SO ENTER THE JUST ENTERED ENTRY MANUALLY
@@ -157,10 +178,6 @@ class JournalHandler(webapp2.RequestHandler):
         Journal_data = journal_query.fetch()
         self.response.write(template.render())
 
-class AccompLibraryHandler(webapp2.RequestHandler):
-    def get(self):
-        template1 = jinja_environment.get_template('Templates/accomplibrary.html')
-        self.response.write(template1.render())
 
 class CompLibraryHandler(webapp2.RequestHandler):
     def get(self):

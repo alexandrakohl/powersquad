@@ -28,36 +28,14 @@
       <div id="w">
          <div id="content">
            <table border="1" class="tableclass" id="tableid">
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
+             {% for item in accomp_store_dict %}
+                <tr class="repeatME">
+                  <td class="date">Date</td>
+                  <td class="textlib">{{item.accomp_info}}</td>
+                  <td class="star2">★</td>
+                  <td class="trash"><img class="trashimg" src="https://openclipart.org/download/226230/trash.svg"/></td>
+                </tr>
+            {% endfor %}
           </table>
          </div>
 

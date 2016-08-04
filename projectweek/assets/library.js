@@ -1,20 +1,23 @@
-console.log("hello")
+//console.log("hello")//
 
-$(document).ready(function() {
-	var win = $(window);
-	var doc = $(document);
+//$(document).ready(function() {
+//	var win = $(window);
+//	var doc = $(document);//
 
-	win.scroll(function() {
-		// Vertical end reached?
-    if($('#loading').is(':visible')){
+//	//new row
+//	for (var i=0; i<5; i++)
+//		var tr = $('<tr />').append($('<td class="date">Date</td>')).append($('<td class="textlib">Text</td>')).append($('<td class="star2">★</td>')).append($('<td class="trash"><img class="trashimg" src="https://openclipart.org/download/226230/trash.svg"/></td>')).appendTo($('#tableid'));//
+//
 
-      // New row
-			var tr = $('<tr />').append($('<td class="date">Date</td>')).append($('<td class="textlib">Text</td>')).append($('<td class="star2">Star</td>')).append($('<td class="trash">Trash</td>')).appendTo($('#tableid'));
+//	win.scroll(function() {
+//		// Vertical end reached?
+//    if($('#loading').is(':visible')){//
 
-			// Current number of columns to create
-			for (var i = 0; i < 3; ++i)
-				tr.append($('<td />'));
-		}
-	});
-});
+//			var tr = $('<tr />').append($('<td class="date">Date</td>')).append($('<td class="textlib">Text</td>')).append($('<td class="star2">★</td>')).append($('<td class="trash"><img class="trashimg" src="https://openclipart.org/download/226230/trash.svg"/></td>')).appendTo($('#tableid'));
+//			// Current number of columns to create
+//			for (var i = 0; i < 3; ++i)
+//				tr.append($('<td />'));
+//		}
+//	});
+//});
 $('#nomoreresults').hide()
