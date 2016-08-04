@@ -144,25 +144,46 @@ class CompHandler(webapp2.RequestHandler):
         self.response.write(template2.render())
 
     def post(self):
-        template = jinja_environment.get_template('Templates/thank_you.html')
+        app_user = users.get_current_user()
+        template2 = jinja_environment.get_template('Templates/thank_you.html')
         comp_info = {
             'email': app_user.email(),
             'comp_text_answer': self.request.get('comp_text')
         }
         comp_info_record = models.Compliments(
-            email = comp_info_answer['email'],
+            email = comp_info['email'],
             comp_info = comp_info['comp_text_answer']
             #user = cool_user_id
         )
         comp_info_record.put()
         compliments_query = models.Compliments.query()
-        compliments_query = compliments_query.filter(models.Compliments.email == comp_info_answer['email'])
-        Compliments_data = accomplishments_query.fetch()
+        compliments_query = compliments_query.filter(models.Compliments.email == comp_info['email'])
+        compliments_data = compliments_query.fetch()
 
-        for data in compliment_data:
+        for data in compliments_data:
             self.response.out.write('<p>'+data.comp_info+'</p>')
 
         self.response.write(template2.render())
+
+class CompLibraryHandler(webapp2.RequestHandler):
+    def get(self):
+        app_user = users.get_current_user()
+        template1 = jinja_environment.get_template('Templates/complibrary.html')
+        comp_info_answer = {
+            'email': app_user.email(),
+            'text': self.request.get('comp_info'),
+            }
+        comp_info_record = models.Compliments(
+            email = comp_info_answer['email'],
+            comp_info = comp_info_answer['text'],
+            )
+        comp_store = models.Compliments.query().filter(models.Compliments.email==comp_info_answer['email'])
+        compliments_data = comp_store.fetch()
+        comp_store_dict ={}
+        for i, instance1 in enumerate(compliments_data):
+            comp_store_dict['random_key_%d' % i] = instance1
+        logging.info (comp_store_dict)
+        self.response.write(template1.render(comp_store_dict=comp_store_dict))
 
 class JournalHandler(webapp2.RequestHandler):
     def get(self):
@@ -185,11 +206,6 @@ class JournalHandler(webapp2.RequestHandler):
         Journal_data = journal_query.fetch()
         self.response.write(template.render())
 
-
-class CompLibraryHandler(webapp2.RequestHandler):
-    def get(self):
-        template1 = jinja_environment.get_template('Templates/complibrary.html')
-        self.response.write(template1.render())
 
 app = webapp2.WSGIApplication([
   ('/', LoginHandler),

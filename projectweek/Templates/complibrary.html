@@ -28,36 +28,15 @@
       <div id="w">
          <div id="content">
            <table border="1" class="tableclass" id="tableid">
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
-            <tr class="repeatME">
-              <td class="date">Date</td>
-              <td class="textlib">Text</td>
-              <td class="star2">Star</td>
-              <td class="trash">Trash</td>
-            </tr>
+             {% for k, instance1 in comp_store_dict.iteritems() %}
+             <tr>
+                <td class="datetime">{{instance1.date}}</td>
+                <td class="textlib">{{instance1.comp_info}}</td>
+                <td class="star2">★</td>
+                <td class="trash"><img class="trashimg" src="http://findicons.com/files/icons/1580/devine_icons_part_2/128/trash_recyclebin_empty_closed.png"></img></td>
+              </tr>
+
+            {% endfor %}
           </table>
          </div>
 
