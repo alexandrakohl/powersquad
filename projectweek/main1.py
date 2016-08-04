@@ -106,12 +106,9 @@ class AccompHandler(webapp2.RequestHandler):
             'random_2' : "",
             'random_3' : ""
         }
-        if len(accomplishments_data) >= 3:
-            recent_accomp = {
-                'random_1' : accomplishments_data[0].accomp_info,
-                'random_2' : accomplishments_data[1].accomp_info,
-                'random_3' : accomplishments_data[2].accomp_info
-            }
+        for i in range(len(accomplishments_data)):
+            recent_accomp['random_%d' % (i+1)] = accomplishments_data[i].accomp_info
+
         # for data in accomplishments_data:
         #     recent_accomp['random%d' % 1,2,3] = data
         # logging.info(recent_accomp)
@@ -152,21 +149,18 @@ class AccompPostHandler(webapp2.RequestHandler):
         accomplishments_query2 = accomplishments_query.filter(models.Accomplishments.email == app_user.email()).order(-models.Accomplishments.time)
 
         accomplishments_data2 = accomplishments_query2.fetch(2)
-        if len(accomplishments_data2) >= 2:
-            recent_accomp = {
-                'random_1' : self.request.body,
-                'random_2' : accomplishments_data2[0].accomp_info,
-                'random_3' : accomplishments_data2[1].accomp_info
-            }
 
-            accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == accomp_info_answer["email"])
-            accomplishment_data = accomplishments_query.fetch()
+        recent_accomp = {
+            'random_1' : self.request.body,
+            'random_2' : "",
+            'random_3' : ""
+        }
+        for i in range(len(accomplishments_data2)):
+            recent_accomp['random_%d' % (i+2)] = accomplishments_data2[i].accomp_info
 
-            #Sends to the JS file
-            self.response.write(recent_accomp['random_1']+","+recent_accomp['random_2']+","+recent_accomp['random_3'])
-        else:
-            self.response.write(",,")
-            
+        self.response.write(recent_accomp['random_1']+","+recent_accomp['random_2']+","+recent_accomp['random_3'])
+
+
         accomp_info_answer = {
             'text': self.request.body,
             'email': app_user.email()
@@ -176,6 +170,7 @@ class AccompPostHandler(webapp2.RequestHandler):
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
             )
+
         accomp_info_record.put()
 
 
