@@ -85,23 +85,70 @@ class LoginHandler(webapp2.RequestHandler):
 class AccompHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('Templates/accomp.html')
-        self.response.write(template.render())
+        app_user = users.get_current_user()
 
-    def post_accomp(self):
-        value = self.request.body #getting the entire body of the reuest which was sent as a second argument in the $ post method in JS
-        print "value: " + value
-        time.sleep(10)
-        self.response.write('POSTED! ' + value)
+        accomplishments_query = models.Accomplishments.query()
+        #filtering so all of the accomplishment objects are from the same person and is ordered in (NEGATIVE) chronological order
+        accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == app_user.email()).order(-models.Accomplishments.time)
 
+        accomplishments_data = accomplishments_query.fetch(3)
+        #     for i, instance in enumerate(accomplishment_data):
+        #         accomp_dict={
+        #         str(instance.Time) = instance.accomp_info
+        #         }
+        #     logging.info (accomp_dict)
+        #
+        #
+        # accomplishments_time_query = models.Accomplishments.query().order(models.Accomplishments.date)
+        # accomplishments_time_query_data = accomplishments_time_query.fetch()
+        #
+
+        recent_accomp = {
+            'random_1' : accomplishments_data[0].accomp_info,
+            'random_2' : accomplishments_data[1].accomp_info,
+            'random_3' : accomplishments_data[2].accomp_info
+        }
+        # for data in accomplishments_data:
+        #     recent_accomp['random%d' % 1,2,3] = data
+        # logging.info(recent_accomp)
+
+
+        self.response.write(template.render({'recent_accomp':recent_accomp}))
+
+    # def post(self):
+    #     template = jinja_environment.get_template('Templates/thank_you.html')
+    #     app_user = users.get_current_user()
+    #     cool_user_id = app_user.user_id() #using the app API, I am accessing the user id
+    #
+    #     accomp_info_answer = {
+    #         "text": self.request.body, #WHEN USING AJX YOU CANNOT USE REQUEST.GET BECAUSE the post function in jquery
+    #         #does not post request with arguments. It only sends a String in the request.body. you CAN send a dictionary in that StringProperty
+    #         #it is called Stringifying an object aka serialization, however you dont need to do that because you are ONLY recieving ONE STRING
+    #         "email": app_user.email()
+    #         }
+    #     accomp_info_record = models.Accomplishments(
+    #         accomp_info = accomp_info_answer["text"],
+    #         email = accomp_info_answer["email"]
+    #         )
+    #     accomp_info_record.put()
+    #
+    #     accomplishments_query = models.Accomplishments.query()
+    #     accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == accomp_info_answer["email"])
+    #     accomplishment_data = accomplishments_query.fetch()
+    #
+    #     self.response.write(template.render())
+
+class AccompPostHandler(webapp2.RequestHandler):
     def post(self):
         app_user = users.get_current_user()
         cool_user_id = app_user.user_id() #using the app API, I am accessing the user id
+        template = jinja_environment.get_template('Templates/accomp.html')
 
-        template = jinja_environment.get_template('Templates/thank_you.html')
         accomp_info_answer = {
-            "text": self.request.get('accomp_text'),
-            "email": app_user.email()
+            'text': self.request.body,
+            'email': app_user.email()
             }
+
         accomp_info_record = models.Accomplishments(
             accomp_info = accomp_info_answer["text"],
             email = accomp_info_answer["email"]
@@ -112,7 +159,10 @@ class AccompHandler(webapp2.RequestHandler):
         accomplishments_query = accomplishments_query.filter(models.Accomplishments.email == accomp_info_answer["email"])
         accomplishment_data = accomplishments_query.fetch()
 
-        self.response.write(template.render())
+        value = self.request.body #getting the entire body of the reuest which was sent as a second argument in the $ post method in JS
+        print "value: " + value
+        time.sleep(1)
+        self.response.write(value)
 
 class AccompLibraryHandler(webapp2.RequestHandler):
     def get(self):
@@ -120,15 +170,15 @@ class AccompLibraryHandler(webapp2.RequestHandler):
         template1 = jinja_environment.get_template('Templates/accomplibrary.html')
         accomp_info_answer = {
             'email': app_user.email(),
-            'text': self.request.get('accomp_info'),
+            'text': self.request.get('accomp_info')
             }
         accomp_info_record = models.Accomplishments(
             email = accomp_info_answer['email'],
-            accomp_info = accomp_info_answer['text'],
+            accomp_info = accomp_info_answer['text']
             )
         accomp_store = models.Accomplishments.query().filter(models.Accomplishments.email==accomp_info_answer['email'])
-
         accomplishment_data = accomp_store.fetch()
+
         accomp_store_dict ={}
         for i, instance in enumerate(accomplishment_data):
             accomp_store_dict['random_key_%d' % i] = instance
@@ -139,30 +189,30 @@ class AccompLibraryHandler(webapp2.RequestHandler):
 
 class CompHandler(webapp2.RequestHandler):
     def get(self):
-        app_user = users.get_current_user()
-        template2 = jinja_environment.get_template('Templates/comp.html')
-        self.response.write(template2.render())
+        template = jinja_environment.get_template('Templates/comp.html')
+        self.response.write(template.render())
 
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
+        app_user = users.get_current_user()
         comp_info = {
             'email': app_user.email(),
             'comp_text_answer': self.request.get('comp_text')
         }
         comp_info_record = models.Compliments(
-            email = comp_info_answer['email'],
+            email = comp_info['email'],
             comp_info = comp_info['comp_text_answer']
             #user = cool_user_id
         )
         comp_info_record.put()
         compliments_query = models.Compliments.query()
-        compliments_query = compliments_query.filter(models.Compliments.email == comp_info_answer['email'])
-        Compliments_data = accomplishments_query.fetch()
+        compliments_query = compliments_query.filter(models.Compliments.email == comp_info['email'])
+        Compliments_data = compliments_query.fetch()
 
-        for data in compliment_data:
+        for data in Compliments_data:
             self.response.out.write('<p>'+data.comp_info+'</p>')
 
-        self.response.write(template2.render())
+        self.response.write(template.render())
 
 class JournalHandler(webapp2.RequestHandler):
     def get(self):
@@ -197,5 +247,6 @@ app = webapp2.WSGIApplication([
   ('/comp', CompHandler),
   ('/journal', JournalHandler),
   ('/accomplibrary', AccompLibraryHandler),
-  ('/complibrary', CompLibraryHandler)
+  ('/complibrary', CompLibraryHandler),
+  ('/post_accomp', AccompPostHandler)
 ], debug=True)

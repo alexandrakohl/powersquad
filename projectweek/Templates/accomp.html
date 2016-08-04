@@ -2,8 +2,6 @@
   <head>
     <title>CREATIVE APP NAME</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/mystyle.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <!--<script src= "assets/events.js"></script>-->
   </head>
   <body>
     <h1><a href="/">Confide In Me</a></h1>
@@ -23,17 +21,22 @@
     </div>
     <div class="tab"><a href="/journal">Journal</a></div>
     <br></br>
-    <form method="post" name="formB">
+    <form method=post action= "post_accomp" name="formB"> <!--action = "post_accomp"-->
       <h3>Accomplishments</h3>
       <p>What are you proud of today: <input type="text" name="accomp_text" id="accomp_text"/></p>
       <button type="submit" id="submit">Submit</button>
       <br></br>
-      <div id = 'accomp'> </div>
+        <div id="accomp1"> {{recent_accomp.random_1}} </div>
+        <div id="accomp2"> {{recent_accomp.random_2}} </div>
+        <div id="accomp3"> {{recent_accomp.random_3}} </div>
+
     </form>
     <a href="/accomplibrary"><img src="https://cdn4.iconfinder.com/data/icons/eldorado-education/40/291400-books_2-512.png" class="library"></a>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>
-    <script src="/stars.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"> </script>-->
+    <!--<script src="/stars.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src= "/assets/events.js"></script>
 
   </body>
 </html>

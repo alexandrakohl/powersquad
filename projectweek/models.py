@@ -13,6 +13,7 @@ class CoolUser(ndb.Model):
 class Accomplishments(ndb.Model):
     accomp_info = ndb.StringProperty()
     date = ndb.DateProperty(auto_now_add=True)
+    time = ndb.DateTimeProperty(auto_now_add = True)
     email = ndb.StringProperty()
 
 class Compliments(ndb.Model):
