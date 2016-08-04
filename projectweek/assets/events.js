@@ -9,11 +9,13 @@ function submit_clicked(event){
   );
 }
 
+
 function handle_response(data){
   console.log(data);
-  $('#accomp1').text(data);
-  $('#accomp2').text('accomp1');
-  $('#accomp3').text('accomp2');
+  accomp_array = data.split(',')
+  $('#accomp1').text(accomp_array[0]);
+  $('#accomp2').text(accomp_array[1]);
+  $('#accomp3').text(accomp_array[2]);
 
 }
 
