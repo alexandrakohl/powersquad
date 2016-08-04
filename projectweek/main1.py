@@ -116,11 +116,11 @@ class AccompLibraryHandler(webapp2.RequestHandler):
         app_user = users.get_current_user()
         template1 = jinja_environment.get_template('Templates/accomplibrary.html')
         accomp_info_answer = {
-            "email": app_user.email(),
-            "text": self.request.get('accomp_info'),
+            'email': app_user.email(),
+            'text': self.request.get('accomp_info'),
             }
         accomp_info_record = models.Accomplishments(
-            email = accomp_info_answer["email"],
+            email = accomp_info_answer['email'],
             accomp_info = accomp_info_answer['text'],
             )
         accomp_store = models.Accomplishments.query().filter(models.Accomplishments.email==accomp_info_answer['email'])
@@ -136,31 +136,34 @@ class AccompLibraryHandler(webapp2.RequestHandler):
 
 class CompHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('Templates/comp.html')
+        app_user = users.get_current_user()
+        template2 = jinja_environment.get_template('Templates/comp.html')
         self.response.write(template.render())
 
     def post(self):
         template = jinja_environment.get_template('Templates/thank_you.html')
         comp_info = {
+            'email': app_user.email(),
             'comp_text_answer': self.request.get('comp_text')
         }
         comp_info_record = models.Compliments(
-            comp = comp_info['comp_text_answer'],
+            email = comp_info_answer['email'],
+            comp_info = comp_info['comp_text_answer']
             #user = cool_user_id
         )
         comp_info_record.put()
         compliments_query = models.Compliments.query()
-        compliments_query = compliments_query.filter(models.Compliments.email == accomp_info_answer["email"])
+        compliments_query = compliments_query.filter(models.Compliments.email == comp_info_answer['email'])
         Compliments_data = accomplishments_query.fetch()
 
         for data in compliment_data:
             self.response.out.write('<p>'+data.comp_info+'</p>')
 
-        self.response.write(template.render())
+        self.response.write(template2.render())
 
 class JournalHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('Templates/journal.html')
+        template3 = jinja_environment.get_template('Templates/journal.html')
         self.response.write(template.render())
 
     def post(self):
@@ -177,7 +180,7 @@ class JournalHandler(webapp2.RequestHandler):
         #BUT THE ENTRY JUST ENTERED!! SO ENTER THE JUST ENTERED ENTRY MANUALLY
         #this actually might not be a problem because we are NOT displaying the accomplishments on that same page (in the library)
         Journal_data = journal_query.fetch()
-        self.response.write(template.render())
+        self.response.write(template3.render())
 
 
 class CompLibraryHandler(webapp2.RequestHandler):
