@@ -7,9 +7,9 @@
 }
 .star2 {
   width: 15%;
-  color: gold;
+  color: #ffd9b3;
   font-size: 20;
-  text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+  text-shadow: 1px 1px #bbb, 2px 2px #ffb366, .1em .1em .2em rgba(0,0,0,.5);
 }
 .trash {
   width: 15%;
@@ -30,4 +30,25 @@
 .trashimg {
   height:20px;
   width: 20px;
+}
+
+.star2:hover {
+  color: #ffbf80;
+}
+
+.star2:click {
+  color: #ffbf80;
+  text-shadow:1px 1px goldenrod, 2px 2px #ffb366, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.star2:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+.trashimg:active {
+    position:relative;
+    top:2px;
+    left:2px;
 }

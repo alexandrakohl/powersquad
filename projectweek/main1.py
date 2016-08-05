@@ -223,7 +223,7 @@ class CompHandler(webapp2.RequestHandler):
 #        for data in compliments_data:
 #            self.response.out.write('<p>'+data.comp_info+'</p>')
 
-        self.response.write(template.render())
+        self.response.write(template2.render())
 
 class CompLibraryHandler(webapp2.RequestHandler):
     def get(self):
