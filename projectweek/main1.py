@@ -23,13 +23,6 @@ compliment_template = {
     'random_compliment_4' : 'You matter',
     }
 
-logging.info(compliment_template)
-random_compliment = random.choice(compliment_template.values())
-logging.info(random_compliment)
-compliment_template_1 = {
-  'random_compliment' : random_compliment,
-}
-
 class LoginHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
@@ -46,6 +39,12 @@ class LoginHandler(webapp2.RequestHandler):
               user_input.last_name,
               email_address,
               signout_link_html))
+        logging.info(compliment_template)
+        random_compliment = random.choice(compliment_template.values())
+        logging.info(random_compliment)
+        compliment_template_1 = {
+          'random_compliment' : random_compliment,
+        }
         self.response.write(home_html.render(compliment_template_1))
 
       else:
